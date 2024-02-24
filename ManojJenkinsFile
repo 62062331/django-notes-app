@@ -2,21 +2,21 @@ pipeline{
     agent any
     
     stages{
-        stage("Fectch Code From Git"){
+        stage("Getting the code from Developer"){
             steps{ 
                 echo "Cloning Code"
                 git url: "https://github.com/62062331/django-notes-app.git", branch: "main"
                 
             }
         }
-        stage("Build"){
+        stage("Build The Code"){
             steps{ 
                 echo "making build of the code"
                 sh "docker build -t notes-app ."
                 
             }
         }
-        stage("Push code to hub"){
+        stage("Push code to Github"){
             steps{ 
                 echo "Pushing the code to github"
                 withCredentials([usernamePassword(credentialsId: 'dockerHubID', usernameVariable: 'DockerHubUser', passwordVariable: 'DockerHubPass')]) {
@@ -26,7 +26,7 @@ pipeline{
                 }
             }
         }
-        stage("deployment"){
+        stage("Final deployment"){
             steps{ 
                 echo "Final development of container"
 //                sh "docker run -d -p 8000:8000 docker8145/notes-app:latest"
